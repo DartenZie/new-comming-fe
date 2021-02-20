@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Roboto';
+  font-weight: normal;
+  src: url(../fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: 'Roboto';
+  font-weight: bold;
+  src: url(../fonts/Poppins-Bold.ttf);
+}
+
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~select2/dist/css/select2.css";
+@import "~dropzone/dist/dropzone.css";
+
+@import "dropzone";
+@import "general";

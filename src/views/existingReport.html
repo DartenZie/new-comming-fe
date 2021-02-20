@@ -1,0 +1,50 @@
+<section class="min-vh-100 w-100 d-flex align-items-center py-5">
+  <div class="form w-100">
+    <h2>Upload your files</h2>
+
+    <form id="form">
+      <div class="form-group">
+        <label for="dropzone" class="form-label">Upload your document here</label>
+        <div id="dropzone" class="dropzone">
+          <div class="dz-message">Drop files here or click to upload.</div>
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="dropzoneAttachments" class="form-label"
+          >Add attachments (optional)</label
+        >
+        <div id="dropzoneAttachments" class="dropzone">
+          <div class="dz-message">Drop files here or click to upload.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="mt-5 mx-auto d-block btn btn-success">
+        Send
+      </button>
+    </form>
+  </div>
+  <div class="loading w-100 d-none">
+    <div class="d-flex justify-content-center mb-4">
+      <div class="loader">
+        <svg viewBox="0 0 80 80">
+          <circle id="test" cx="40" cy="40" r="32"></circle>
+        </svg>
+      </div>
+
+      <div class="loader triangle">
+        <svg viewBox="0 0 86 80">
+          <polygon points="43 8 79 72 7 72"></polygon>
+        </svg>
+      </div>
+
+      <div class="loader">
+        <svg viewBox="0 0 80 80">
+          <rect x="8" y="8" width="64" height="64"></rect>
+        </svg>
+      </div>
+    </div>
+
+    <p id="progress" class="text-center"></p>
+  </div>
+</section>

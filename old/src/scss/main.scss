@@ -1,0 +1,11 @@
+$primary-color: #6c63ff;
+$font: 'lato', sans-serif;
+
+body {
+  background: $primary-color;
+  font-family: $font;
+
+  p {
+    color: #ffffff;
+  }
+}
