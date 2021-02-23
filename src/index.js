@@ -3,7 +3,6 @@ import 'core-js/stable'
 import './styles/index.scss'
 
 import 'jquery/dist/jquery'
-import 'select2/dist/js/select2'
 import 'dropzone/dist/dropzone'
 
 import {

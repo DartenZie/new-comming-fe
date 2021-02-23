@@ -1,17 +1,12 @@
 import axios from 'axios'
 import { load } from 'recaptcha-v3'
-import {
-  attachFileRequest,
-  login,
-  newDocumentFromExistingFileRequest,
-} from './requests'
+import { Requests } from './requests'
 
 class ExistingReport {
   token
   dropzone
   dropzoneAttachments
   document
-  files = []
 
   constructor() {
     this.axios = axios.create({
@@ -19,8 +14,10 @@ class ExistingReport {
       headers: { 'Content-Type': 'application/json' },
     })
 
+    this.requests = new Requests(this.axios)
+
     this.loadCaptcha()
-    this.login()
+    this.requests.login().then((token) => this.afterLogin(token))
 
     document.getElementById('form').addEventListener('submit', (e) => {
       e.preventDefault()
@@ -28,26 +25,32 @@ class ExistingReport {
     })
   }
 
-  login() {
-    login(this.axios)
-      .then(({ data }) => {
-        this.token = data.token
+  afterLogin(token) {
+    this.token = token
 
-        this.dropzone = new Dropzone('div#dropzone', {
-          url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
-        })
-        this.dropzoneAttachments = new Dropzone('div#dropzoneAttachments', {
-          url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
-        })
+    // Create drop zones
+    this.dropzone = new Dropzone('div#dropzone', {
+      url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
+    })
+    this.dropzoneAttachments = new Dropzone('div#dropzoneAttachments', {
+      url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
+    })
 
-        this.dropzone.on('success', (file, resp) => {
-          this.document = resp.file
-        })
-        this.dropzoneAttachments.on('success', (file, resp) => {
-          this.files.push(resp.file)
-        })
-      })
-      .catch((err) => console.error(err))
+    // Add events to drop zones
+    this.dropzone.on('success', (file, resp) => {
+      this.document = resp.file
+    })
+    this.dropzoneAttachments.on('addedfile', (file) =>
+      this.requests.addFile(file)
+
+      // TODO compression if image
+    )
+    this.dropzoneAttachments.on('complete', () => {
+      this.requests.decrementCounter()
+    })
+    this.dropzoneAttachments.on('success', (file, resp) => {
+      this.requests.addAttachment(file, resp)
+    })
   }
 
   loadCaptcha() {
@@ -63,40 +66,14 @@ class ExistingReport {
       .catch(console.error)
   }
 
-  async onSubmit() {
+  onSubmit() {
+    if (!this.requests.isUploadingDone() || !this.document) return
+
     document.querySelector('.loading').classList.remove('d-none')
     document.querySelector('.form').classList.add('d-none')
     document.getElementById('progress').innerText = 'Creating your document...'
 
-    const {
-      data: { results },
-    } = await newDocumentFromExistingFileRequest(
-      this.axios,
-      this.token,
-      this.document
-    )
-    this.documentId = results[0].documentId
-
-    document.getElementById('progress').innerText =
-      'Attaching files to your document...'
-
-    for (let i = 0; i < this.files.length; i++) {
-      await attachFileRequest(
-        this.axios,
-        this.token,
-        this.files[i],
-        this.documentId
-      )
-    }
-
-    document.getElementById('progress').innerText = 'Done'
-
-    // Redirect
-    const uriComponent = encodeURIComponent(
-      `{documentId:"${this.documentId}",documentType:"annual_medical_report",forceHandover:"Tester",callbackUrl:"http://localhost:8080/thanks"}`
-    )
-    const redirect = `https://hospital.circularo.com/loginRedirect?redirect=app.signPrepare&redirectParams=${uriComponent}&token=${this.token}`
-    window.location.replace(redirect)
+    this.requests.createNewDocumentFromFile(this.document)
   }
 }
 
