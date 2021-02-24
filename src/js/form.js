@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { load } from 'recaptcha-v3'
 import { Requests } from './requests'
+import { createAttachmentDropzone } from "./utils";
 
 class Form {
   name = ''
@@ -35,23 +36,10 @@ class Form {
     this.token = token
 
     // Create dropzone
-    this.dropzoneAttachments = new Dropzone('div#dropzoneAttachments', {
-      url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
-    })
-
-    // Add events to dropzone
-    this.dropzoneAttachments.on(
-      'addedfile',
-      (file) => this.requests.addFile(file)
-
-      // TODO compression if image
+    this.dropzoneAttachments = createAttachmentDropzone(
+      this.requests,
+      this.token
     )
-    this.dropzoneAttachments.on('complete', () => {
-      this.requests.decrementCounter()
-    })
-    this.dropzoneAttachments.on('success', (file, resp) => {
-      this.requests.addAttachment(file, resp)
-    })
   }
 
   loadCaptcha() {

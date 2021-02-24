@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { load } from 'recaptcha-v3'
 import { Requests } from './requests'
+import { createAttachmentDropzone, imageCompression } from './utils'
 
 class ExistingReport {
   token
@@ -28,28 +29,23 @@ class ExistingReport {
   afterLogin(token) {
     this.token = token
 
-    // Create drop zones
+    // Create dropzone
     this.dropzone = new Dropzone('div#dropzone', {
       url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
     })
-    this.dropzoneAttachments = new Dropzone('div#dropzoneAttachments', {
-      url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
-    })
+    this.dropzoneAttachments = createAttachmentDropzone(
+      this.requests,
+      this.token
+    )
 
-    // Add events to drop zones
+    // Add events to dropzone
+    this.dropzone.on('addedfile', function () {
+      if (this.files.length > 1) {
+        this.removeFile(this.files[0])
+      }
+    })
     this.dropzone.on('success', (file, resp) => {
       this.document = resp.file
-    })
-    this.dropzoneAttachments.on('addedfile', (file) =>
-      this.requests.addFile(file)
-
-      // TODO compression if image
-    )
-    this.dropzoneAttachments.on('complete', () => {
-      this.requests.decrementCounter()
-    })
-    this.dropzoneAttachments.on('success', (file, resp) => {
-      this.requests.addAttachment(file, resp)
     })
   }
 
