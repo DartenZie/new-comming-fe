@@ -1,0 +1,141 @@
+.form-group {
+  position: relative;
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active  {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: $body-color !important;
+  }
+
+  .form-control {
+    background: transparent !important;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid $gray;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+
+    box-shadow: none;
+    border-radius: 0;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+    }
+    &.error:focus {
+      border-color: $danger;
+    }
+  }
+
+  label {
+    color: $gray !important;
+    font-size: 18px !important;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px !important;
+    transition: 0.2s ease all !important;
+    -moz-transition: 0.2s ease all !important;
+    -webkit-transition: 0.2s ease all !important;
+  }
+
+  input {
+    background: transparent;
+    color: $body-color;
+  }
+
+  /* active state */
+  .form-control:focus ~ label, label.active {
+    top: -20px !important;
+    font-size: 14px !important;
+    color: $primary !important;
+  }
+  .error:focus ~ label {
+    color: $danger !important;
+  }
+
+  label.active {
+    color: $gray !important;
+  }
+
+  /* BOTTOM BARS ================================= */
+  .bar {
+    position: relative;
+    display: block;
+  }
+  .bar:before, .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: $primary;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+  .bar:before {
+    left: 50%;
+  }
+  .bar:after {
+    right: 50%;
+  }
+
+  .error ~ .bar:before, .error ~ .bar:after {
+    background: $danger;
+  }
+
+  /* active state */
+  .form-control:focus ~ .bar:before, .form-control:focus ~ .bar:after {
+    width: 50%;
+  }
+
+  /* ERROR ================================= */
+  .error {
+    color: $danger;
+    border-color: $danger;
+  }
+  .error ~ label {
+    color: $danger !important;
+  }
+  .error-message {
+    color: $danger;
+    padding: 0 10px 0 5px;
+  }
+
+  /* HOVER ================================= */
+
+  &:hover {
+    .form-control {
+      border-color: $primary;
+    }
+    label {
+      color: $primary !important;
+    }
+
+    .form-control:focus ~ label, label.active {
+      color: $primary !important;
+    }
+    label.active {
+      color: $gray !important;
+    }
+
+    .error {
+      color: $danger;
+      border-color: $danger;
+    }
+    .error ~ label {
+      color: $danger !important;
+    }
+    .error:focus ~ label {
+      color: $danger !important;
+    }
+  }
+}

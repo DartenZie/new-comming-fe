@@ -14,6 +14,7 @@ import {
 import { Router } from './js/router'
 import form from './js/form'
 import existingReport from './js/existingReport'
+import thanks from './js/thanks'
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -23,7 +24,7 @@ const routes = [
     component: ExistingReport,
     script: existingReport,
   },
-  { path: '/thanks', component: ThanksComponent },
+  { path: '/thanks', component: ThanksComponent, script: thanks },
 ]
 
 const router = new Router({ routes })

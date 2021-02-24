@@ -1,4 +1,28 @@
+$primary: #477998;
+$success: #00a878;
+$danger: #e5446d;
+
+$white: #ffffff;
+$black: #000000;
+$gray: #595959;
+
 $theme-colors: (
-  'success': #00a878,
-  'danger': #e5446d,
+  'primary': $primary,
+  'success': $success,
+  'danger': $danger,
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 768px,
+  md: 992px,
+  lg: 1200px,
+  xl: 1680px,
+);
+
+$container-max-widths: (
+  sm: 720px,
+  md: 840px,
+  lg: 960px,
+  xl: 1220px,
 );

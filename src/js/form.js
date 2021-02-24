@@ -1,7 +1,9 @@
 import axios from 'axios'
+import datepicker from 'js-datepicker'
 import { load } from 'recaptcha-v3'
 import { Requests } from './requests'
-import { createAttachmentDropzone } from "./utils";
+import { createAttachmentDropzone } from './utils'
+import { encodeDate, formatDate, parseDate } from "./dateFormatting";
 
 class Form {
   name = ''
@@ -21,12 +23,31 @@ class Form {
 
     this.requests = new Requests(this.axios)
 
+    this.picker = datepicker('#birthDate', {
+      onSelect: (instance, date) => {
+        this.birthDate = date
+
+        const labels = document.querySelectorAll('.form-label')
+        const label = Array.prototype.slice
+          .call(labels)
+          .find((el) => el.getAttribute('for') === 'birthDate')
+
+        label.classList.add('active')
+      }
+    })
+
     this.loadCaptcha()
     this.getQueryParams()
     this.fillParamsInForm()
+    this.setupInputs()
     this.requests.login().then((token) => this.afterLogin(token))
 
     document.getElementById('form').addEventListener('submit', (e) => {
+      e.preventDefault()
+      this.nextStep()
+    })
+
+    document.getElementById('attachments').addEventListener('submit', (e) => {
       e.preventDefault()
       this.onSubmit()
     })
@@ -60,15 +81,44 @@ class Form {
 
     if (params.has('name')) this.name = params.get('name')
     if (params.has('sex')) this.sex = params.get('sex')
-    if (params.has('birthDate')) this.birthDate = params.get('birthDate')
+    if (params.has('birthDate')) this.birthDate = parseDate(params.get('birthDate'))
     if (params.has('address')) this.address = params.get('address')
   }
 
   fillParamsInForm() {
     document.getElementById('name').value = this.name
     document.getElementById('sex').value = this.sex
-    document.getElementById('birthDate').value = this.birthDate
+    if (this.birthDate) this.picker.setDate(this.birthDate)
     document.getElementById('address').value = this.address
+  }
+
+  setupInputs() {
+    const inputs = document.querySelectorAll('.form-control')
+
+    inputs.forEach((cur) => {
+      const id = cur.getAttribute('id')
+      const labels = document.querySelectorAll('.form-label')
+      const label = Array.prototype.slice
+        .call(labels)
+        .find((el) => el.getAttribute('for') === id)
+
+      if (cur.value) {
+        label.classList.add('active')
+      }
+
+      cur.addEventListener('input', () => {
+        if (cur.value) {
+          label.classList.add('active')
+        } else {
+          label.classList.remove('active')
+        }
+      })
+    })
+  }
+
+  nextStep() {
+    document.getElementById('form').classList.remove('active')
+    document.getElementById('attachments').classList.add('active')
   }
 
   onSubmit() {
@@ -76,13 +126,12 @@ class Form {
 
     this.name = document.getElementById('name').value
     this.sex = document.getElementById('sex').value
-    this.birthDate = document.getElementById('birthDate').value
     this.address = document.getElementById('address').value
 
     const data = {
       name: this.name,
       sex: this.sex,
-      birthDate: this.birthDate,
+      birthDate: this.birthDate.toISOString(),
       address: this.address,
     }
 

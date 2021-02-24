@@ -22,7 +22,7 @@ export const ThanksComponent = {
 export const ErrorComponent = {
   render: () => {
     return `
-      <section>
+      <section class="h-100 d-flex justify-content-center align-items-center">
         <h1>404 | File was not found</h1>
       </section>
     `;

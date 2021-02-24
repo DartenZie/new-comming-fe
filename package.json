@@ -61,6 +61,7 @@
     "core-js": "^3.9.0",
     "dropzone": "^5.7.6",
     "jquery": "^3.5.1",
+    "js-datepicker": "^5.18.0",
     "recaptcha-v3": "^1.8.0",
     "select2": "^4.1.0-rc.0"
   }

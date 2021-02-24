@@ -28,19 +28,12 @@ function imageCompression(file) {
       'accepted',
     ]
 
-    origProps.forEach(cur => {
+    origProps.forEach((cur) => {
       newFile[cur] = origFile[cur]
     })
 
     return newFile
   }
-
-  const supportedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-
-  // Return if file is not an image, or image is in unsupported format
-  // Also return if files width or height is 0, just in case
-  if (!supportedTypes.includes(file.type) || file.width < 1 || file.height < 1)
-    return
 
   const MAX_WIDTH = 1920
   const MAX_HEIGHT = 1080
@@ -49,6 +42,23 @@ function imageCompression(file) {
 
   // Convert file to img
   reader.addEventListener('load', (event) => {
+    const supportedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+
+    // Return if file is not an image, or image is in unsupported format
+    if (!supportedTypes.includes(file.type)) {
+      // Create HTML element for file icon
+      const fileIcon = document.createElement('div')
+      fileIcon.classList.add('file-icon')
+      fileIcon.innerText = file.type.split('/')[1]
+
+      // Remove img element and replace it with icon element
+      const dzImage = file.previewElement.querySelector('.dz-image')
+      dzImage.removeChild(dzImage.childNodes[0])
+      dzImage.appendChild(fileIcon)
+
+      return this.enqueueFile(file)
+    }
+
     const origImg = new Image()
     origImg.src = event.target.result
 
@@ -98,22 +108,14 @@ function imageCompression(file) {
   reader.readAsDataURL(file)
 }
 
-export const createAttachmentDropzone = (requests, token) => {
-  const dropzone = new Dropzone('div#dropzoneAttachments', {
+export const createAttachmentDropzone = (requests, token) =>
+  new Dropzone('div#dropzoneAttachments', {
     url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${token}`,
     autoQueue: false,
+    init: function() {
+      this.on('addedfile', imageCompression)
+      this.on('success', (file, resp) => {
+        requests.addAttachment(file, resp)
+      })
+    },
   })
-
-  dropzone.on('addedfile', () => {
-    requests.addFile()
-  })
-  dropzone.on('addedfile', imageCompression)
-  dropzone.on('complete', () => {
-    requests.decrementCounter()
-  })
-  dropzone.on('success', (file, resp) => {
-    requests.addAttachment(file, resp)
-  })
-
-  return dropzone
-}

@@ -1,7 +1,41 @@
-<section class="min-vh-100 w-100 d-flex justify-content-center align-items-center py-5">
-  <div class="text-center">
-    <p class="thanks-icon">🎉</p>
-    <h1>Thanks for submitting</h1>
-    <a class="mx-auto d-block btn btn-success spa-link" href="/">Back to homepage</a>
+<section
+  class="h-100 w-100 d-flex justify-content-center align-items-center py-5"
+>
+  <div id="success" class="thanks-page text-center">
+    <div class="thanks-icon">
+      <div class="f-modal-icon f-modal-success animate">
+        <span class="f-modal-line f-modal-tip animateSuccessTip"></span>
+        <span class="f-modal-line f-modal-long animateSuccessLong"></span>
+        <div class="f-modal-placeholder"></div>
+        <div class="f-modal-fix"></div>
+      </div>
+    </div>
+
+    <h1>Thank you for submitting</h1>
+    <p class="introduction-text">
+      Your document was successfully singed.<br />
+      You will be redirected back to home page in <span class="timeout">5</span> seconds.
+    </p>
+    <a class="text-center thanks-link spa-link" href="/">Back to homepage</a>
+  </div>
+
+  <div id="failed" class="thanks-page text-center">
+    <div class="thanks-icon">
+      <div class="f-modal-icon f-modal-error animate">
+        <span class="f-modal-x-mark">
+          <span class="f-modal-line f-modal-left animateXLeft"></span>
+          <span class="f-modal-line f-modal-right animateXRight"></span>
+        </span>
+        <div class="f-modal-placeholder"></div>
+        <div class="f-modal-fix"></div>
+      </div>
+    </div>
+
+    <h1>Something went wrong</h1>
+    <p class="introduction-text">
+      There was an error while we were trying to sing your document.<br />
+      You will be redirected back to home page in <span class="timeout">5</span> seconds.
+    </p>
+    <a class="text-center thanks-link spa-link" href="/">Back to homepage</a>
   </div>
 </section>

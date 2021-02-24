@@ -1,50 +1,70 @@
-<section class="min-vh-100 w-100 d-flex align-items-center py-5">
-  <div class="form w-100">
-    <h2>Upload your files</h2>
+<section class="h-100 w-100 d-flex align-items-center">
+  <div class="row w-100 h-100 m-0">
+    <div class="col-lg-5 p-0 d-none d-lg-block">
+      <div class="side-img"></div>
+    </div>
+    <div class="col-lg-7 d-flex justify-content-center align-items-center">
+      <div class="form w-100">
 
-    <form id="form">
-      <div class="form-group">
-        <label for="dropzone" class="form-label">Upload your document here</label>
-        <div id="dropzone" class="dropzone">
-          <div class="dz-message">Drop files here or click to upload.</div>
+        <form id="form" class="form-step active">
+          <div class="form-heading">
+            <h2>Upload your report</h2>
+            <p class="subtitle">
+              Upload your medical report as a pdf file.
+            </p>
+          </div>
+
+          <div id="dropzone" class="dropzone">
+            <div class="dz-message">Drop files here or click to upload.</div>
+          </div>
+
+          <button type="submit" class="ml-auto btn-text-icon">
+            <span>Continue</span>
+            <span class="icon"><i class="uis uis-arrow-circle-right"></i></span>
+          </button>
+        </form>
+
+        <form id="attachments" class="form-step">
+          <div class="form-heading">
+            <h2>Upload your attachments</h2>
+            <p class="subtitle">
+              Uploading attachments is not needed, if you don't have any extra
+              files, click "Save"
+            </p>
+          </div>
+
+          <div id="dropzoneAttachments" class="dropzone">
+            <div class="dz-message">Drop files here or click to upload.</div>
+          </div>
+
+          <button type="submit" class="mt-5 mx-auto d-block btn btn-success">
+            Save
+          </button>
+        </form>
+      </div>
+      <div class="loading w-100 d-none">
+        <div class="d-flex justify-content-center mb-4">
+          <div class="loader">
+            <svg viewBox="0 0 80 80">
+              <circle id="test" cx="40" cy="40" r="32"></circle>
+            </svg>
+          </div>
+
+          <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+              <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+          </div>
+
+          <div class="loader">
+            <svg viewBox="0 0 80 80">
+              <rect x="8" y="8" width="64" height="64"></rect>
+            </svg>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group mb-3">
-        <label for="dropzoneAttachments" class="form-label"
-          >Add attachments (optional)</label
-        >
-        <div id="dropzoneAttachments" class="dropzone">
-          <div class="dz-message">Drop files here or click to upload.</div>
-        </div>
-      </div>
-
-      <button type="submit" class="mt-5 mx-auto d-block btn btn-success">
-        Send
-      </button>
-    </form>
-  </div>
-  <div class="loading w-100 d-none">
-    <div class="d-flex justify-content-center mb-4">
-      <div class="loader">
-        <svg viewBox="0 0 80 80">
-          <circle id="test" cx="40" cy="40" r="32"></circle>
-        </svg>
-      </div>
-
-      <div class="loader triangle">
-        <svg viewBox="0 0 86 80">
-          <polygon points="43 8 79 72 7 72"></polygon>
-        </svg>
-      </div>
-
-      <div class="loader">
-        <svg viewBox="0 0 80 80">
-          <rect x="8" y="8" width="64" height="64"></rect>
-        </svg>
+        <p id="progress" class="text-center"></p>
       </div>
     </div>
-
-    <p id="progress" class="text-center"></p>
   </div>
 </section>

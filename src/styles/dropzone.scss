@@ -1,12 +1,28 @@
-.dropzone, .dropzone * {
+.dropzone,
+.dropzone * {
   box-sizing: border-box;
 }
 
 .dropzone {
   position: relative;
-  border: #262833 dashed 2px;
+  border: $gray dashed 2px;
+  height: 200px;
+  padding: 15px 20px;
+  overflow-y: auto;
+
+  &.dz-drag-over {
+    border: $gray solid 2px;
+    background: #f5f5f5;
+
+    .dz-message {
+      color: $dark;
+    }
+  }
 
   .dz-message {
+    font-size: 18px;
+    line-height: 27px;
+    color: $gray;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -15,21 +31,174 @@
   }
 
   .dz-preview {
-    position: relative;
-    display: inline-block;
-    width: 120px;
-    margin: 0.5em;
+    width: 100%;
+    height: 40px;
+    min-height: 0;
+    border: 1px solid $gray;
+    margin: 0 0 15px;
+    display: flex;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    &:hover .dz-image img {
+      -webkit-filter: none;
+      filter: none;
+    }
+
+    &.dz-success {
+      border-color: $success;
+
+      .dz-image .file-icon {
+        background: $success !important;
+      }
+    }
+    &.dz-error {
+      border-color: $danger;
+
+      .dz-image .file-icon {
+        background: $danger !important;
+      }
+    }
+
+    .dz-image {
+      position: relative;
+      height: 38px;
+      width: 38px;
+      border-radius: 0 !important;
+      background: transparent !important;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+
+      .file-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 26px;
+        height: 32px;
+        border-top-right-radius: 10px;
+        background: $gray;
+        color: $white;
+        font-size: 8px;
+        line-height: 15px;
+        padding-top: 17px;
+        padding-left: 2px;
+        text-transform: uppercase;
+
+        overflow: hidden;
+      }
+    }
+
+    .dz-details {
+      display: flex;
+      position: relative;
+      height: 100%;
+      width: 100%;
+      min-width: 0;
+      opacity: 1 !important;
+      padding: 0;
+
+      flex-direction: row-reverse;
+
+      .dz-size {
+        line-height: 38px;
+        width: 110px;
+        margin: 0;
+        text-align: right;
+      }
+
+      .dz-filename {
+        width: 100%;
+        padding: 0 15px;
+        line-height: 38px;
+        text-align: left;
+
+        border: none !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+
+        span {
+          font-size: 14px;
+
+          border: none !important;
+        }
+      }
+    }
 
     .dz-progress {
       display: block;
-      height: 15px;
-      border: 1px solid #aaa;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0;
+      border-radius: 0;
+      animation: none !important;
 
       .dz-upload {
         display: block;
         height: 100%;
         width: 0;
-        background: green;
+        background-color: $success;
+        background-image: linear-gradient(
+          to bottom,
+          lighten($success, 10%),
+          lighten($success, 25%)
+        );
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background-image: linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent
+          );
+          z-index: 999;
+          background-size: 50px 50px;
+          animation: move 2s infinite;
+          animation-timing-function: linear;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .dz-error-message {
+      opacity: 1;
+      background: transparent;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0 0 0 38px;
+
+      span {
+        display: block;
+        padding-left: 15px;
+        font-size: 14px;
+        line-height: 38px;
+        background: $white;
+        color: $danger;
+      }
+
+      &:after {
+        display: none;
       }
     }
 
@@ -53,5 +222,14 @@
       left: 50%;
       margin-left: -27px;
     }
+  }
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
   }
 }

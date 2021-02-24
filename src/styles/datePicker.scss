@@ -1,0 +1,37 @@
+.qs-datepicker-container {
+  border: none;
+  background: #f5f5f5;
+  border-radius: 0;
+  box-shadow: 0 0 8px rgba($gray, 0.2);
+
+  .qs-controls {
+    background: transparent;
+  }
+
+  .qs-month-year {
+    border: none !important;
+  }
+
+  .qs-day {
+    color: $gray;
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  .qs-overlay-year {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .qs-submit {
+    background: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .qs-close {
+    padding: 0 0.5em 0 0;
+  }
+}

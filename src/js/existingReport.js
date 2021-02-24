@@ -22,6 +22,11 @@ class ExistingReport {
 
     document.getElementById('form').addEventListener('submit', (e) => {
       e.preventDefault()
+      this.nextStep()
+    })
+
+    document.getElementById('attachments').addEventListener('submit', (e) => {
+      e.preventDefault()
       this.onSubmit()
     })
   }
@@ -32,6 +37,7 @@ class ExistingReport {
     // Create dropzone
     this.dropzone = new Dropzone('div#dropzone', {
       url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
+      acceptedFiles: 'application/pdf',
     })
     this.dropzoneAttachments = createAttachmentDropzone(
       this.requests,
@@ -39,10 +45,20 @@ class ExistingReport {
     )
 
     // Add events to dropzone
-    this.dropzone.on('addedfile', function () {
+    this.dropzone.on('addedfile', function (file) {
       if (this.files.length > 1) {
         this.removeFile(this.files[0])
       }
+
+      // Create HTML element for file icon
+      const fileIcon = document.createElement('div')
+      fileIcon.classList.add('file-icon')
+      fileIcon.innerText = file.type.split('/')[1]
+
+      // Remove img element and replace it with icon element
+      const dzImage = file.previewElement.querySelector('.dz-image')
+      dzImage.removeChild(dzImage.childNodes[0])
+      dzImage.appendChild(fileIcon)
     })
     this.dropzone.on('success', (file, resp) => {
       this.document = resp.file
@@ -60,6 +76,13 @@ class ExistingReport {
           .catch(console.error)
       })
       .catch(console.error)
+  }
+
+  nextStep() {
+    if (!this.requests.isUploadingDone() || !this.document) return
+
+    document.getElementById('form').classList.remove('active')
+    document.getElementById('attachments').classList.add('active')
   }
 
   onSubmit() {

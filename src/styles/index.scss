@@ -1,18 +1,27 @@
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Poppins';
   font-weight: normal;
   src: url(../fonts/Poppins-Regular.ttf);
 }
 @font-face {
-  font-family: 'Roboto';
+  font-family: 'Poppins';
+  font-weight: 600;
+  src: url(../fonts/Poppins-SemiBold.ttf);
+}
+@font-face {
+  font-family: 'Poppins';
   font-weight: bold;
   src: url(../fonts/Poppins-Bold.ttf);
 }
 
-@import "variables";
-@import "~bootstrap/scss/bootstrap";
-@import "~select2/dist/css/select2.css";
-@import "~dropzone/dist/dropzone.css";
+@import 'variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~select2/dist/css/select2.css';
+@import '~dropzone/dist/dropzone.css';
+@import '~js-datepicker/src/datepicker';
 
-@import "dropzone";
-@import "general";
+@import 'dropzone';
+@import 'datePicker';
+@import 'general';
+
+@import 'components/index';
