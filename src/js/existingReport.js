@@ -11,7 +11,7 @@ class ExistingReport {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: 'https://hospital.circularo.com/api/v1',
+      baseURL: 'https://test.circularo.com/api/v1',
       headers: { 'Content-Type': 'application/json' },
     })
 
@@ -36,7 +36,7 @@ class ExistingReport {
 
     // Create dropzone
     this.dropzone = new Dropzone('div#dropzone', {
-      url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${this.token}`,
+      url: `https://test.circularo.com/api/v1/files/saveFile?token=${this.token}`,
       acceptedFiles: 'application/pdf',
     })
     this.dropzoneAttachments = createAttachmentDropzone(

@@ -12,9 +12,9 @@ export class Requests {
     return new Promise((resolve) => {
       this.axios
         .post('login', {
-          name: 'tester@circularo.com',
-          password: 'hospitaltester',
-          tenant: 'hospital',
+          name: 'newcoming@circularo.com',
+          password: 'newcircularocoming',
+          tenant: 'default',
         })
         .then(({ data }) => {
           this.token = data.token
@@ -83,7 +83,7 @@ export class Requests {
 
     const uriComponent = encodeURIComponent(JSON.stringify(redirectParams))
 
-    const redirect = `https://hospital.circularo.com/loginRedirect?redirect=app.signPrepare&redirectParams=${uriComponent}&token=${this.token}`
+    const redirect = `https://test.circularo.com/loginRedirect?redirect=app.signPrepare&redirectParams=${uriComponent}&token=${this.token}`
     window.location.replace(redirect)
   }
 

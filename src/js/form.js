@@ -17,7 +17,7 @@ class Form {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: 'https://hospital.circularo.com/api/v1',
+      baseURL: 'https://test.circularo.com/api/v1',
       headers: { 'Content-Type': 'application/json' },
     })
 

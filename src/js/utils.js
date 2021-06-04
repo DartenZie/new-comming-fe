@@ -110,7 +110,7 @@ function imageCompression(file) {
 
 export const createAttachmentDropzone = (requests, token) =>
   new Dropzone('div#dropzoneAttachments', {
-    url: `https://hospital.circularo.com/api/v1/files/saveFile?token=${token}`,
+    url: `https://test.circularo.com/api/v1/files/saveFile?token=${token}`,
     autoQueue: false,
     init: function() {
       this.on('addedfile', imageCompression)
